@@ -8,7 +8,9 @@ export const findAllEmployeeService = () => {
     return axios.get(REST_API_BASE_URL+"/findAll");
 }
 
-
+export const createEmployeeService = (employee) => {
+    return axios.post(REST_API_BASE_URL,employee);
+}
 
 
 
