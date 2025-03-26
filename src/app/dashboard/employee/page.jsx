@@ -45,6 +45,7 @@ function Page(props) {
     const [status, setStatus] = useState([]);
     const [employees, setEmployees] = useState([]);
     const [statuesList , setStatuesList] = useState([]);
+    const [open, setOpen] = useState(false);
 
 
     useEffect(() => {
@@ -62,12 +63,6 @@ function Page(props) {
             console.log(error);
         })
     }
-
-
-    // const statuesList = [
-    //     {id: 1, name: 'active'},
-    //     {id: 2, name: 'inactive'},
-    // ];
 
 
     function handleStatus(value) {
@@ -107,11 +102,11 @@ function Page(props) {
             {/*dialog form area start*/}
             <form>
                 <div className="mt-10 gap-y-1.5">
-                    <Dialog className="">
+                    <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>
                             <Button variant="successBtn">Add Update Employees</Button>
                         </DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="w-full max-w-screen-lg sm:max-w-screen-lg">
                             <DialogHeader>
                                 <DialogTitle>Add or update Employee</DialogTitle>
                                 <DialogDescription>Make your changes</DialogDescription>
@@ -119,47 +114,47 @@ function Page(props) {
 
 
                             <div className="w-full">
-                                <Label> First name</Label>
+                                <Label className="mb-2"> First name</Label>
                                 <Input type="text" name="firstName" placeholder="Enter First Name" value={firstName}
                                        onChange={(e) => setFirstName(e.target.value)}/>
                             </div>
 
 
                             <div className="w-full">
-                                <Label> Last name</Label>
+                                <Label className="mb-2"> Last name</Label>
                                 <Input type="text" name="lastName" placeholder="Enter Last Name" value={lastName}
                                        onChange={(e) => setLastName(e.target.value)}/>
                             </div>
 
 
                             <div className="w-full">
-                                <Label> Age</Label>
+                                <Label className="mb-2"> Age</Label>
                                 <Input type="number" name="age" placeholder="Enter Age" value={age}
                                        onChange={(e) => setAge(e.target.value)}/>
                             </div>
 
                             <div className="w-full">
-                                <Label> Phone Number </Label>
+                                <Label className="mb-2"> Phone Number </Label>
                                 <Input type="number" name="phoneNumber" placeholder="Enter Age" value={phoneNumber}
                                        onChange={(e) => setPhoneNumber(e.target.value)}/>
                             </div>
 
                             <div className="w-full">
-                                <Label> Email </Label>
+                                <Label className="mb-2"> Email </Label>
                                 <Input type="email" name="email" placeholder="Enter Age" value={email}
                                        onChange={(e) => setEmail(e.target.value)}/>
                             </div>
 
 
                             <div className="w-full">
-                                <label>City</label>
+                                <label className="mb-2">City</label>
                                 <Input type="text" name="city" placeholder="Enter Age" value={city}
                                        onChange={(e) => setCity(e.target.value)}/>
                             </div>
 
 
                             <div className="w-full">
-                                <label>Status</label>
+                                <label className="mb-2">Status</label>
                                 <Select onValueChange={handleStatus}>
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Select Status"/>
@@ -176,7 +171,7 @@ function Page(props) {
                                 </Select>
                             </div>
 
-                            <div className="w-full space-x-30">
+                            <div className="w-full flex justify-between gap-4">
                                 <Button variant="dangerBtn" type="submit">Reset</Button>
                                 <Button variant="warningBtn" type="submit">Update</Button>
                                 <Button variant="successBtn" type="submit" onClick={saveEmployee}>Save</Button>
@@ -193,7 +188,7 @@ function Page(props) {
             <div className="mt-10">
                 <Table>
                     <TableCaption>All employee list</TableCaption>
-                    <TableHeader className="bg-slate-300 text-white">
+                    <TableHeader className="bg-slate-600 text-white">
                         <TableRow>
                             <TableHead>#</TableHead>
                             <TableHead>first name</TableHead>
@@ -203,6 +198,7 @@ function Page(props) {
                             <TableHead>email</TableHead>
                             <TableHead>city</TableHead>
                             <TableHead>status</TableHead>
+                            <TableHead className="text-center">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -216,6 +212,11 @@ function Page(props) {
                                 <TableCell>{oneEmployee.email}</TableCell>
                                 <TableCell>{oneEmployee.city}</TableCell>
                                 <TableCell>{oneEmployee.status.name}</TableCell>
+                                <TableCell className="flex justify-between">
+                                    <Button type="button" variant="secondary">Refill</Button>
+                                    <Button type="button" variant="secondary">Delete</Button>
+                                    <Button type="button" variant="secondary">Print</Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
