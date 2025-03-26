@@ -1,5 +1,5 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Dialog,
     DialogContent,
@@ -20,6 +20,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import {findAllEmployeeService} from "@/services/employeeService";
+import { Table,TableBody,TableCaption,TableCell,TableFooter,TableHead, TableHeader, TableRow,} from "@/components/ui/table"
 
 
 
@@ -32,6 +34,13 @@ function Page(props) {
     const [email, setEmail] = useState("");
     const [city, setCity] = useState("");
     const [status, setStatus] = useState([]);
+    const [employees, setEmployees] = useState([]);
+
+
+    useEffect(() => {
+      getEmployees();
+    },[])
+
 
 
     const statuesList = [
@@ -45,15 +54,29 @@ function Page(props) {
         console.log(value);
     }
 
+    function getEmployees(){
+        findAllEmployeeService().then((response)=>{
+            console.log(response.data);
+            setEmployees(response.data);
+        })
+    }
+
+
+
+
+
 
     return (
         <div>
 
-
+            {/*header area start*/}
             <div className="p-5 bg-green-900 text-center text-2xl text-white rounded-2xl">
                 employee management
             </div>
+            {/*header area end*/}
 
+
+            {/*dialog form area start*/}
             <div className="mt-10 gap-y-1.5">
                 <Dialog className="">
                     <DialogTrigger asChild>
@@ -134,6 +157,45 @@ function Page(props) {
                     </DialogContent>
                 </Dialog>
             </div>
+            {/*dialog form area end*/}
+
+            {/*table area start*/}
+            <div className="mt-10">
+                <Table>
+                    <TableCaption>All employee list</TableCaption>
+                    <TableHeader className="bg-slate-300 text-white">
+                            <TableRow>
+                                <TableHead>#</TableHead>
+                                <TableHead>first name</TableHead>
+                                <TableHead>last name</TableHead>
+                                <TableHead>age</TableHead>
+                                <TableHead>phone number</TableHead>
+                                <TableHead>email</TableHead>
+                                <TableHead>city</TableHead>
+                                <TableHead>status</TableHead>
+                            </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {employees.map((oneEmployee,index)=>(
+                            <TableRow key={index}>
+                                <TableCell>{index+1}</TableCell>
+                                <TableCell>{oneEmployee.firstName}</TableCell>
+                                <TableCell>{oneEmployee.lastName}</TableCell>
+                                <TableCell>{oneEmployee.age}</TableCell>
+                                <TableCell>{oneEmployee.phoneNumber}</TableCell>
+                                <TableCell>{oneEmployee.email}</TableCell>
+                                <TableCell>{oneEmployee.city}</TableCell>
+                                <TableCell>{oneEmployee.status.name}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
+            {/*table area end*/}
+
+
+
+
 
 
         </div>
